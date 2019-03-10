@@ -1,0 +1,31 @@
+/*!
+ * Start Bootstrap - Shop Homepage (https://startbootstrap.com/template-overviews/shop-homepage)
+ * Copyright 2013-2019 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-shop-homepage/blob/master/LICENSE)
+ */
+body {
+  padding-top: 56px;
+}
+
+.doors-list {
+  padding-top: 15px;
+}
+
+#detail {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+#add-door {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.preview {
+  margin: 5px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-height: 200px;
+  width: auto;
+}
