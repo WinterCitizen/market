@@ -1,0 +1,31 @@
+version: 2
+jobs:
+  deploy:
+    docker:
+      - image: alpine:latest
+    steps:
+      # - run:
+      #     name: Deploy Over SSH
+      #     command: |
+      #       ssh $SSH_USER@$SSH_HOST "<remote deploy command>"
+      - run:
+          name: Install openssh
+          command: apk update && apk add openssh
+      - add_ssh_keys:
+          fingerprints:
+            - "0c:a5:21:d2:1f:cc:0a:30:bf:b6:f0:37:e2:a1:18:2e"
+      - checkout
+      - run: echo $HOST_FINGERPRINT >> ~/.ssh/known_hosts
+      - run:
+          name: Deploy to DigitalOcean
+          command: scp -r ./* $SSH_USER@$SSH_HOST:/app/market/
+
+
+workflows:
+  version: 2
+  deploy:
+    jobs:
+      - deploy:
+          filters:
+            branches:
+              only: master
