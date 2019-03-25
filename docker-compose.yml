@@ -26,7 +26,7 @@ services:
     networks:
       - local
     ports:
-      - 8000:80
+      - 80:80
     volumes:
       - media:/media
 
