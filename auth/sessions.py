@@ -1,6 +1,7 @@
 from store.db import get_collection
 from uuid import uuid4
 from datetime import datetime, timezone
+from auth.exceptions import SessionNotFound
 
 
 def get_sessions_collection(db):
@@ -38,6 +39,9 @@ class Session:
     async def obtain(cls, db, id):
         sessions = get_sessions_collection(db)
         result = await cls.find(sessions, dict(id=id))
+
+        if result is None:
+            raise SessionNotFound()
 
         created_at = result['created_at'].replace(tzinfo=timezone.utc)
 
