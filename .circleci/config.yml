@@ -1,5 +1,21 @@
 version: 2
 jobs:
+  build:
+    docker:
+      - image: docker:stable
+    steps:
+      - checkout
+      - run:
+          name: Build images
+          command: |
+            docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+            docker build --target nginx -t wintercitizen/market:nginx && docker push wintercitizen/market:nginx .
+            docker build -t wintercitizen/market:application . && docker push wintercitizen/market:application .
+      - run:
+          name: Push images
+          command: |
+              docker push wintercitizen/market:nginx
+              docker push wintercitizen/market:application
   deploy:
     docker:
       - image: alpine:latest
@@ -17,14 +33,20 @@ jobs:
       - checkout
       - run: echo $HOST_FINGERPRINT >> ~/.ssh/known_hosts
       - run:
-          name: Deploy to DigitalOcean
-          command: scp -r ./* $SSH_USER@$SSH_HOST:/app/market/
+          name: Deploy to DigitalOcean & run
+          command: |
+            scp -r ./docker-compose.yml* $SSH_USER@$SSH_HOST:/app/market/docker-compose.yml
+            ssh $SSH_USER@SSH_HOST "cd /app/market && docker-compose pull && docker-compose up -d"
 
 
 workflows:
   version: 2
   deploy:
     jobs:
+      - build:
+          filters:
+            branches:
+              only: master
       - deploy:
           filters:
             branches:
