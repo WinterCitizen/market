@@ -37,7 +37,7 @@ jobs:
           name: Deploy to DigitalOcean & run
           command: |
             scp -r ./docker-compose.yml* $SSH_USER@$SSH_HOST:/app/market/docker-compose.yml
-            ssh $SSH_USER@SSH_HOST "cd /app/market && docker-compose pull && docker-compose up -d"
+            ssh $SSH_USER@$SSH_HOST "cd /app/market && docker-compose pull && docker-compose up -d"
 
 
 workflows:
