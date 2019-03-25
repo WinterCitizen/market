@@ -9,8 +9,8 @@ jobs:
           name: Build images
           command: |
             docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-            docker build --target nginx -t wintercitizen/market:nginx && docker push wintercitizen/market:nginx .
-            docker build -t wintercitizen/market:application . && docker push wintercitizen/market:application .
+            docker build --target nginx -t wintercitizen/market:nginx . && docker push wintercitizen/market:nginx
+            docker build -t wintercitizen/market:application . && docker push wintercitizen/market:application
       - run:
           name: Push images
           command: |
