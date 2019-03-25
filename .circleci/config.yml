@@ -2,8 +2,9 @@ version: 2
 jobs:
   build:
     docker:
-      - image: docker:dind
+      - image: docker:stable
     steps:
+      - setup_remote_docker
       - checkout
       - run:
           name: Build images
