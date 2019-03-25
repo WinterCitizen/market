@@ -1,3 +1,5 @@
 .venv
 Procfile
 *.pyc
+settings_local.py
+.gitignore

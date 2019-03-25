@@ -1,4 +1,5 @@
 import os
+import logging
 
 
 BASE_DIR = os.path.dirname((os.path.abspath(__file__)))
@@ -6,6 +7,9 @@ BASE_DIR = os.path.dirname((os.path.abspath(__file__)))
 
 def rel(path):
     return os.path.join(BASE_DIR, path)
+
+
+DEBUG = False
 
 
 MONGO_HOST = os.environ.get('MONGO_HOST', 'localhost')
@@ -23,3 +27,8 @@ TEMPLATE_DIRS = [
 STATIC_ROOT = rel('static')
 
 MEDIA_ROOT = rel('media')
+
+try:
+    from settings_local import *  # noqa
+except ImportError:
+    logging.warning('Local settings are not found.')

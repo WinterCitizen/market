@@ -18,8 +18,10 @@ def add_routes(app):
     app.add_routes(doors_routes)
     app.add_routes(contacts_routes)
     app.add_routes(admin_routes)
-    app.add_routes([web.static('/static', settings.STATIC_ROOT)])
-    app.add_routes([web.static('/media', settings.MEDIA_ROOT)])
+
+    if settings.DEBUG:
+        app.add_routes([web.static('/static', settings.STATIC_ROOT)])
+        app.add_routes([web.static('/media', settings.MEDIA_ROOT)])
 
 
 def load_templates(app):
