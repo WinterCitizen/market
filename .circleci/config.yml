@@ -6,12 +6,12 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       - run:
           name: Build images
           command: |
-            docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-            docker build --target nginx -t wintercitizen/market:nginx . && docker push wintercitizen/market:nginx
-            docker build -t wintercitizen/market:application . && docker push wintercitizen/market:application
+            docker build --target nginx -t wintercitizen/market:nginx .
+            docker build -t wintercitizen/market:application .
       - run:
           name: Push images
           command: |
@@ -21,10 +21,6 @@ jobs:
     docker:
       - image: alpine:latest
     steps:
-      # - run:
-      #     name: Deploy Over SSH
-      #     command: |
-      #       ssh $SSH_USER@$SSH_HOST "<remote deploy command>"
       - run:
           name: Install openssh
           command: apk update && apk add openssh
@@ -34,9 +30,12 @@ jobs:
       - checkout
       - run: echo $HOST_FINGERPRINT >> ~/.ssh/known_hosts
       - run:
-          name: Deploy to DigitalOcean & run
+          name: Copy docker-compose.yml to droplet
           command: |
             scp -r ./docker-compose.yml* $SSH_USER@$SSH_HOST:/app/market/docker-compose.yml
+      - run:
+          name: Recreate & run services
+          command: |
             ssh $SSH_USER@$SSH_HOST "cd /app/market && docker-compose pull && docker-compose up -d"
 
 
