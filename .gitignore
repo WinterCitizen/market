@@ -2,3 +2,4 @@
 .vscode
 *.pyc
 settings_local.py
+media
