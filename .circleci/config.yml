@@ -6,6 +6,7 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
+      - run: "pip install django"
       - run:
           name: Collect static
           command: python3 manage.py collectstatic
