@@ -6,6 +6,9 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
+      - run:
+          name: Collect static
+          command: python3 manage.py collectstatic
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       - run:
           name: Build images

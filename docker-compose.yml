@@ -3,6 +3,8 @@ version: '3'
 services:
   app:
     image: wintercitizen/market:application
+    depends_on:
+      - postgres
     environment:
       - POSTGRES_HOST=postgres
       - POSTGRES_PORT=5432
@@ -13,8 +15,6 @@ services:
     working_dir: /app/src/
     volumes:
       - media:/app/src/media
-    ports:
-      - 8080:8080
     entrypoint: ./docker-entrypoint.sh
 
   postgres:
@@ -26,14 +26,16 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  # nginx:
-  #   image: wintercitizen/market:nginx
-  #   networks:
-  #     - local
-  #   ports:
-  #     - 80:80
-  #   volumes:
-  #     - media:/media
+  nginx:
+    image: wintercitizen/market:nginx
+    depends_on:
+      - app
+    networks:
+      - local
+    ports:
+      - 80:80
+    volumes:
+      - media:/media
 
 networks:
   local:

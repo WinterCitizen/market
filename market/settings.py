@@ -29,7 +29,7 @@ SECRET_KEY = '%wa3hqv111&m5oyx*6hsh&wnf@es$l(6s5mc2tm!gd1%z2g3b2'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -140,3 +140,5 @@ MEDIA_ROOT = rel('media')
 MEDIA_URL = '/media/'
 
 DOORS_PER_PAGE = 25
+
+FILE_UPLOAD_MAX_MEMORY_SIZE = 52428800
