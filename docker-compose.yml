@@ -4,34 +4,39 @@ services:
   app:
     image: wintercitizen/market:application
     environment:
-      - MONGO_HOST=mongo
-      - MONGO_PORT=27017
-      - PORT=8000
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=market
+      - POSTGRES_USER=postgres
     networks:
       - local
     working_dir: /app/src/
     volumes:
       - media:/app/src/media
-    command: python main.py
-
-  mongo:
-    image: mongo:latest
-    networks:
-      - local
-    volumes:
-      - mongo_data:/data/db
-
-  nginx:
-    image: wintercitizen/market:nginx
-    networks:
-      - local
     ports:
-      - 80:80
+      - 8080:8080
+    entrypoint: ./docker-entrypoint.sh
+
+  postgres:
+    image: postgres:latest
+    environment:
+      - POSTGRES_DB=market
+    networks:
+      - local
     volumes:
-      - media:/media
+      - postgres_data:/var/lib/postgresql/data
+
+  # nginx:
+  #   image: wintercitizen/market:nginx
+  #   networks:
+  #     - local
+  #   ports:
+  #     - 80:80
+  #   volumes:
+  #     - media:/media
 
 networks:
   local:
 volumes:
-  mongo_data:
+  postgres_data:
   media:

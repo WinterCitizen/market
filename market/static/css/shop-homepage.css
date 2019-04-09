@@ -29,3 +29,12 @@ body {
   max-height: 200px;
   width: auto;
 }
+
+.square {
+  width: 40px;
+  height: 40px;
+  border: 2px solid;
+  border-radius: 2px;
+  color: #cccccc;
+  margin: 4px;
+}

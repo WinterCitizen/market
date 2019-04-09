@@ -1,0 +1,78 @@
+{% extends "core/base.djt" %}
+{% load bootstrap %}
+{% block content %}
+  <!-- Page Content -->
+  <div class="container">
+
+    <div class="row">
+
+      <div class="col-lg-3">
+
+        <h1 class="my-4">Doors</h1>
+        <form role="form" method="POST">
+          {% csrf_token %}
+          {{ form|bootstrap }}
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Отфильтровать</button>
+          </div>
+        </form>
+
+      </div>
+      <!-- /.col-lg-3 -->
+
+      <div class="col-lg-9">
+
+        <div class="doors-list">
+
+          <div class="row">
+
+            {% for door in object_list %}
+              <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                  <a href="{% url 'door_detail' pk=door.pk picture_pk=door.picture_set.first.pk %}">
+                    <img class="card-img-top preview" src="{{ door.picture_set.first.image.url }}" alt="">
+                  </a>
+                  <div class="card-body">
+                    <h4 class="card-title">
+                        <a href="{% url 'door_detail' pk=door.pk picture_pk=door.picture_set.first.pk %}">{{ door.title }}</a>
+                    </h4>
+                    <h5>{{ door.price }} ₽</h5>
+                    <p class="card-text"></p>
+                  </div>
+                  <div class="card-footer">
+                    <a href="#" class="btn btn-light btn-lg btn-block">Купить</a>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+          <!-- /.row -->
+          <div class="row">
+            <div class="col-md-6 offset-md-3">
+              <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                  {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link" href="#">&larr;Туда</a></li>
+                  {% endif %}
+                  <span class="current">
+                    Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
+                  </span>
+                  {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="#">Сюда&rarr;</a></li>
+                  {% endif %}
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+        <!-- /.container -->
+
+      </div>
+      <!-- /.col-lg-9 -->
+
+    </div>
+    <!-- /.row -->
+
+  </div>
+  <!-- /.container -->
+{% endblock content %}
