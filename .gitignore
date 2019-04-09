@@ -3,3 +3,5 @@
 *.pyc
 settings_local.py
 media
+_olderino
+static

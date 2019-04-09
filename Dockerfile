@@ -7,6 +7,7 @@ WORKDIR /app/src
 COPY ./ ./
 # Static will be copied to nginx image
 RUN rm -r static
+RUN apk update && apk add postgresql-dev build-base jpeg-dev zlib-dev
 ENV PIP_CACHE_DIR=/app/pip-cache
 RUN pip install --upgrade pip \
     && pip install -r requirements.txt \

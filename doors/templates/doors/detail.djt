@@ -1,0 +1,67 @@
+{% extends "core/base.djt" %}
+{% block content %}
+  <!-- Page Content -->
+  <div id="detail">
+    <div class="row">
+      <div class="col-lg-8 offset-lg-2">
+        <div class="card">
+          <div class="row no-gutters">
+            <div class="col-md-3">
+              <img src="{{ current_picture.image.url }}" class="card-img" alt="">
+            </div>
+            <div class="col-md-1">
+              {% for picture in object.picture_set.all %}
+                <a href="{% url 'door_detail' pk=object.pk picture_pk=picture.pk %}">
+                  <div class="square col-md-2" style="background-color: {{ picture.color.value }};{% if picture.pk == current_picture.pk %} border-color: #797979 {% endif %}">
+                  </div>
+                </a>
+
+              {% endfor %}
+            </div>
+            <div class="col-md-6 offset-md-1">
+              <div class="card-block px-2 mt-md-5">
+                <h4 class="card-title">{{ object.title }}</h4>
+                <table class="table">
+                  <tbody>
+                    <tr>
+                      <td>Производитель</td>
+                      <td>{{ object.manufacturer }}</td>
+                    </tr>
+                    <tr>
+                      <td>Категория</td>
+                      <td>{{ object.subcategory }}</td>
+                    </tr>
+                    <tr>
+                      <td>Каркас полотна</td>
+                      <td>{{ object.frame_material }}</td>
+                    </tr>
+                    <tr>
+                      <td>Отделка</td>
+                      <td>{{ object.cover_material }}</td>
+                    </tr>
+                    <tr>
+                      <td>Размеры</td>
+                      <td>{{ measurements }}</td>
+                    </tr>
+                    <tr>
+                      <td>Толщина полотна (мм)</td>
+                      <td>{{ object.thickness }}</td>
+                    </tr>
+                    <tr>
+                      <td>Упаковка</td>
+                      <td>{{ packings }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="card-footer">
+                <a href="#" class="btn btn-light btn-lg btn-block">Купить</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+{% endblock content %}
