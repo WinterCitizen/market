@@ -6,7 +6,7 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-      - run: "pip install django"
+      - run: "pip install django django-bootstrap-form psycopg2"
       - run:
           name: Collect static
           command: python3 manage.py collectstatic
