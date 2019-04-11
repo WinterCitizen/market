@@ -40,7 +40,10 @@
                     <p class="card-text"></p>
                   </div>
                   <div class="card-footer">
-                    <a href="#" class="btn btn-light btn-lg btn-block">Купить</a>
+                    <form action="{% url 'add_to_card' door=door.pk picture=door.picture_set.first.pk %}?redirect_to={{ request.path }}" method="post">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-light btn-lg btn-block">В корзину</button>
+                    </form>
                   </div>
                 </div>
               </div>
