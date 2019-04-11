@@ -1,6 +1,8 @@
 from django import forms
 from django.forms.widgets import TextInput
 from doors import models
+from django.utils.functional import lazy
+from functools import partial
 
 
 class ColorModelForm(forms.ModelForm):
@@ -18,37 +20,65 @@ class DoorFilterForm(forms.Form):
     manufacturer__in = forms.MultipleChoiceField(
         widget=forms.CheckboxSelectMultiple,
         label='Производитель',
-        choices=models.Manufacturer.objects.values_list('id', 'title'),
+        choices=lazy(
+            partial(
+                models.Manufacturer.objects.values_list, 'id', 'title'),
+            tuple,
+        ),
         required=False)
     subcategory__in = forms.MultipleChoiceField(
         widget=forms.CheckboxSelectMultiple,
         label='Категория',
-        choices=models.Subcategory.objects.values_list('id', 'title'),
+        choices=lazy(
+            partial(
+                models.Subcategory.objects.values_list, 'id', 'title'),
+            tuple,
+        ),
         required=False)
     frame_material__in = forms.MultipleChoiceField(
         widget=forms.CheckboxSelectMultiple,
         label='Каркас полотна',
-        choices=models.FrameMaterial.objects.values_list('id', 'title'),
+        choices=lazy(
+            partial(
+                models.FrameMaterial.objects.values_list, 'id', 'title'),
+            tuple,
+        ),
         required=False)
     cover_material__in = forms.MultipleChoiceField(
         widget=forms.CheckboxSelectMultiple,
         label='Отделка',
-        choices=models.CoverMaterial.objects.values_list('id', 'title'),
+        choices=lazy(
+            partial(
+                models.CoverMaterial.objects.values_list, 'id', 'title'),
+            tuple,
+        ),
         required=False)
     heights__in = forms.MultipleChoiceField(
         widget=forms.CheckboxSelectMultiple,
         label='Высота',
-        choices=models.Height.objects.values_list('id', 'value'),
+        choices=lazy(
+            partial(
+                models.Height.objects.values_list, 'id', 'value'),
+            tuple,
+        ),
         required=False)
     widths__in = forms.MultipleChoiceField(
         widget=forms.CheckboxSelectMultiple,
         label='Ширина',
-        choices=models.Width.objects.values_list('id', 'value'),
+        choices=lazy(
+            partial(
+                models.Width.objects.values_list, 'id', 'value'),
+            tuple,
+        ),
         required=False)
     packings__in = forms.MultipleChoiceField(
         widget=forms.CheckboxSelectMultiple,
         label='Ширина',
-        choices=models.PackingMaterial.objects.values_list('id', 'title'),
+        choices=lazy(
+            partial(
+                models.PackingMaterial.objects.values_list, 'id', 'title'),
+            tuple,
+        ),
         required=False)
     price__gte = forms.IntegerField(
         min_value=0, label='Цена от', required=False)
